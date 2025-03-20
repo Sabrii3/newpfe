@@ -1,0 +1,45 @@
+<div class="fichier-container">
+  <div class="fichier-header">
+    <h2>Mes Fichiers</h2>
+    <div class="actions">
+      <input type="text" 
+             [(ngModel)]="searchTerm" 
+             (input)="filterFiles()" 
+             placeholder="Rechercher des fichiers..." 
+             class="search-input">
+      
+      <label class="upload-btn">
+        <input type="file" 
+               (change)="onFileSelected($event)"
+               accept=".json,.csv,.xml,.pdf"
+               hidden>
+        <span>Ajouter un fichier</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="files-grid">
+    <div class="file-card" *ngFor="let file of filteredFiles; let i = index">
+      <div class="file-icon" [ngClass]="file.type">
+        <i class="fas" [ngClass]="{
+          'fa-file-code': file.name.endsWith('.json') || file.name.endsWith('.xml'),
+          'fa-file-csv': file.name.endsWith('.csv'),
+          'fa-file-pdf': file.name.endsWith('.pdf')
+        }"></i>
+      </div>
+      <div class="file-info">
+        <h3>{{file.name}}</h3>
+        <p>{{file.size}} - {{file.dateAdded | date}}</p>
+      </div>
+      <div class="file-actions">
+        <button (click)="toggleMenu(i)" class="menu-btn">
+          <i class="fas fa-ellipsis-v"></i>
+        </button>
+        <div class="dropdown-menu" *ngIf="activeMenu === i">
+          <button (click)="renameFile(i)">Renommer</button>
+          <button (click)="deleteFile(i)">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

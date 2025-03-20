@@ -1,0 +1,384 @@
+<div class="gererfichier-wrapper">
+  <div class="fichier-sidebar">
+    <div class="sidebar-header">
+      <div class="admin-profile">
+        <div class="admin-avatar">
+          <img src="assets/images/admin-avatar.png" alt="Admin Avatar">
+        </div>
+        <div class="admin-info">
+          <h3>Admin Name</h3>
+          <span class="admin-role">Administrateur</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section-container">
+      <!-- Section Fichiers -->
+      <div class="section-title">
+        <div class="section-header">
+          <h4>Mes fichiers</h4>
+          <button class="add-btn" (click)="toggleFileUpload()">
+            <i class="fas fa-plus"></i>
+            <span>Ajouter</span>
+          </button>
+        </div>
+      </div>
+      <div class="search-container">
+        <input [(ngModel)]="searchTerm" 
+               (input)="onSearchChange($event)"
+               placeholder="Rechercher fichiers..." />
+      </div>
+      <div class="files-list">
+        <div *ngIf="recentFiles.length > 0; else noFiles">
+          <div class="file-item" *ngFor="let file of recentFiles; let i = index" 
+               [class.active]="selectedFileIndex === i"
+               [class.active-menu]="activeFileMenu === i">
+            <i class="fas" [ngClass]="getFileIcon(file)"></i>
+            <span [title]="file.name">{{file.name}}</span>
+            <button class="menu-btn" (click)="toggleFileMenu($event, i)">⋮</button>
+            
+            <div class="dropdown-menu" [class.show]="activeFileMenu === i">
+              <button (click)="renameFile(i)">
+                <i class="fas fa-edit"></i> Renommer
+              </button>
+              <button (click)="deleteFile(i)">
+                <i class="fas fa-trash"></i> Supprimer
+              </button>
+              <button *ngIf="canEditFile(file)" (click)="editFile(i)">
+                <i class="fas fa-pencil-alt"></i> Modifier
+              </button>
+            </div>
+          </div>
+        </div>
+        <ng-template #noFiles>
+          <div class="no-items-message">
+            <i class="fas fa-file-alt"></i>
+            <p>Aucun fichier trouvé</p>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Section APIs -->
+      <div class="section-title">
+        <div class="section-header">
+          <h4>Mes APIs</h4>
+          <button class="add-btn" (click)="addNewApi()">
+            <i class="fas fa-plus"></i> Ajouter
+          </button>
+        </div>
+      </div>
+      <div class="files-list">
+        <div *ngIf="apis.length > 0; else noApis">
+          <div class="file-item" *ngFor="let api of apis; let i = index">
+            <i class="fas fa-plug"></i>
+            <span [title]="api.name">{{api.name}}</span>
+            <button class="menu-btn" (click)="toggleApiMenu($event, i)">⋮</button>
+            <div class="dropdown-menu" [class.show]="activeApiMenu === i">
+              <button (click)="editApi(i)">
+                <i class="fas fa-edit"></i> Modifier
+              </button>
+              <button (click)="deleteApi(i)">
+                <i class="fas fa-trash"></i> Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+        <ng-template #noApis>
+          <div class="no-items-message">
+            <i class="fas fa-plug"></i>
+            <p>Aucune API trouvée</p>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Section URLs -->
+      <div class="section-title">
+        <div class="section-header">
+          <h4>Mes URLs</h4>
+          <button class="add-btn" (click)="addNewUrl()">
+            <i class="fas fa-plus"></i> Ajouter
+          </button>
+        </div>
+      </div>
+      <div class="files-list">
+        <div *ngIf="urls.length > 0; else noUrls">
+          <div class="file-item" *ngFor="let url of urls; let i = index">
+            <i class="fas fa-link"></i>
+            <span [title]="url.name">{{url.name}}</span>
+            <button class="menu-btn" (click)="toggleUrlMenu($event, i)">⋮</button>
+            <div class="dropdown-menu" [class.show]="activeUrlMenu === i">
+              <button (click)="editUrl(i)">
+                <i class="fas fa-edit"></i> Modifier
+              </button>
+              <button (click)="deleteUrl(i)">
+                <i class="fas fa-trash"></i> Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+        <ng-template #noUrls>
+          <div class="no-items-message">
+            <i class="fas fa-link"></i>
+            <p>Aucune URL trouvée</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <button class="logout-btn" (click)="logout()">
+      <i class="fas fa-sign-out-alt"></i>
+      Déconnexion
+    </button>
+  </div>
+
+  <div class="dashboard-content">
+    <div class="dashboard-header">
+      <h1>Dashboard</h1>
+      <div class="stats-cards">
+        <div class="stat-card">
+          <i class="fas fa-file"></i>
+          <div class="stat-info">
+            <h3>{{files.length}}</h3>
+            <p>Fichiers</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-plug"></i>
+          <div class="stat-info">
+            <h3>{{apis.length}}</h3>
+            <p>APIs</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-link"></i>
+          <div class="stat-info">
+            <h3>{{urls.length}}</h3>
+            <p>URLs</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recent-activity">
+      <h2>Analyse des Demandes Clients</h2>
+      <div class="activity-grid">
+        <div class="activity-card">
+          <h3>Périodes les Plus Demandées</h3>
+          <ul>
+            <li *ngFor="let timeSlot of popularTimeSlots">
+              <i class="fas fa-clock"></i>
+              <span>{{timeSlot.period}}</span>
+              <small>{{timeSlot.count}} demandes</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-section">
+      <div class="chart-container">
+        <h2>Évolution du nombre de clients</h2>
+        <div class="line-chart">
+          <div class="chart-bars">
+            <div *ngFor="let value of statsData.clientStats.data; let i = index" 
+                 class="bar" 
+                 [style.height]="getBarHeight(value)"
+                 [title]="value + ' clients'">
+              <span class="bar-value">{{value}}</span>
+              <span class="bar-label">{{statsData.clientStats.labels[i]}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="usage-stats">
+        <div class="usage-card">
+          <h3>Top Clients</h3>
+          <div class="usage-list">
+            <div *ngFor="let client of statsData.topClients" class="usage-item">
+              <span class="name">{{client.name}}</span>
+              <div class="usage-bar">
+                <div class="bar" [style.width]="(client.usage / statsData.topClients[0].usage) * 100 + '%'"></div>
+              </div>
+              <span class="value">{{client.usage}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="resources-usage">
+          <div class="resource-card">
+            <h3>Fichiers les plus utilisés</h3>
+            <div class="resource-list">
+              <div *ngFor="let file of statsData.mostUsedResources.files" class="resource-item">
+                <i class="fas fa-file"></i>
+                <span>{{file.name}}</span>
+                <span class="usage-count">{{file.uses}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="resource-card">
+            <h3>APIs les plus utilisées</h3>
+            <div class="resource-list">
+              <div *ngFor="let api of statsData.mostUsedResources.apis" class="resource-item">
+                <i class="fas fa-plug"></i>
+                <span>{{api.name}}</span>
+                <span class="usage-count">{{api.uses}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="resource-card">
+            <h3>URLs les plus visitées</h3>
+            <div class="resource-list">
+              <div *ngFor="let url of statsData.mostUsedResources.urls" class="resource-item">
+                <i class="fas fa-link"></i>
+                <span>{{url.name}}</span>
+                <span class="usage-count">{{url.uses}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="resource-card">
+            <h3>Destinations les plus populaires</h3>
+            <div class="resource-list">
+              <div *ngFor="let dest of statsData.mostUsedResources.destinations.slice(0, 3)" class="resource-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>{{dest.name}}</span>
+                <span class="usage-count">{{dest.mentions}}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Éditeur de fichier -->
+  <div class="file-editor" *ngIf="showEditor" (click)="$event.stopPropagation()">
+    <div class="editor-header">
+      <h3>
+        <i [class]="'fas ' + getFileIcon(editingFile)"></i>
+        {{editingFile?.name}}
+      </h3>
+      <div class="editor-actions">
+        <button class="save-btn" (click)="saveFileChanges()">
+          <i class="fas fa-save"></i>
+          Enregistrer
+        </button>
+        <button class="close-btn" (click)="closeEditor()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <textarea 
+      #editor
+      [value]="editingContent"
+      [class]="'editor-content ' + getEditorClass(editingFile)"
+      placeholder="Contenu du fichier..."
+      (input)="onEditorInput($event)"
+      [attr.rows]="20"
+      [attr.spellcheck]="false"
+      autocomplete="off"
+      wrap="off"
+      [style.height.px]="editor.scrollHeight"
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="20"
+      cdkAutosizeMaxRows="1000">
+    </textarea>
+  </div>
+
+  <div class="error-notification" *ngIf="showError">
+    <i class="fas fa-exclamation-circle"></i>
+    {{ errorMessage }}
+  </div>
+
+  <div class="modal-overlay" *ngIf="showPrompt" (click)="closePrompt()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ promptTitle }}</h3>
+        <button class="close-modal" (click)="closePrompt()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" 
+               [(ngModel)]="promptValue" 
+               placeholder="Entrez une valeur..." 
+               (keyup.enter)="confirmPrompt()"
+               #promptInput>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-btn" (click)="closePrompt()">Annuler</button>
+        <button class="confirm-btn" (click)="confirmPrompt()">Confirmer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showEditModal" (click)="closeEditModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ editModalTitle }}</h3>
+        <button class="close-modal" (click)="closeEditModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Champs pour l'API -->
+        <div *ngIf="editModalFields.hasOwnProperty('apiKey')">
+          <div class="form-group">
+            <label>API Key</label>
+            <input type="text" 
+                   [(ngModel)]="editModalFields.apiKey" 
+                   placeholder="Entrez votre API key">
+          </div>
+        </div>
+        <!-- Champs pour l'URL -->
+        <div *ngIf="!editModalFields.hasOwnProperty('apiKey')">
+          <div class="form-group">
+            <label>URL</label>
+            <input type="url" 
+                   [(ngModel)]="editModalFields.url" 
+                   placeholder="https://exemple.com"
+                   (input)="autoUpdateName($event)">
+          </div>
+          <div class="form-group">
+            <label>Nom (mise à jour automatique)</label>
+            <input type="text" 
+                   [(ngModel)]="editModalFields.name" 
+                   placeholder="Nom de l'URL"
+                   [title]="'Le nom sera automatiquement mis à jour si non modifié'">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-btn" (click)="closeEditModal()">Annuler</button>
+        <button class="confirm-btn" (click)="confirmEdit()">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showDeleteConfirm" (click)="cancelDelete()">
+    <div class="modal-content delete-confirm" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3><i class="fas fa-exclamation-triangle"></i> Confirmation de suppression</h3>
+        <button class="close-modal" (click)="cancelDelete()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Êtes-vous sûr de vouloir supprimer <strong>{{ fileToDelete?.name }}</strong> ?</p>
+        <p class="warning-text">Cette action est irréversible.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-btn" (click)="cancelDelete()">
+          <i class="fas fa-times"></i> Annuler
+        </button>
+        <button class="confirm-btn delete-btn" (click)="confirmDelete()">
+          <i class="fas fa-trash"></i> Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

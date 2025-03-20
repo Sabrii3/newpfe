@@ -1,0 +1,58 @@
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="admin-profile">
+      <div class="admin-avatar">
+        <img src="assets/admin-avatar.png" alt="Admin">
+      </div>
+      <h3>User Name</h3>
+      <i class="fas fa-image"></i>
+    </div>
+  </div>
+  
+  <div class="files-title">
+    <h4>Mes conversations</h4>
+  </div>
+
+  <div class="new-chat-btn">
+    <button (click)="createNewChat()">
+      <i class="fas fa-plus"></i>
+      Nouvelle conversation
+    </button>
+  </div>
+
+  <div class="search-container">
+    <input [(ngModel)]="searchTerm" 
+           (input)="onSearchChange($event)"
+           placeholder="Rechercher..." />
+  </div>
+
+  <div class="files-list">
+    <div *ngIf="filteredConversations.length > 0; else noChats">
+      <div class="file-item" *ngFor="let convo of filteredConversations; let i = index" 
+           [class.active]="selectedFileIndex === i"
+           [class.active-menu]="activeMenu === i">
+        <i class="fas fa-comment"></i>
+        <span [title]="convo">{{convo}}</span>
+        <!-- Modifier l'appel de toggleMenu pour n'envoyer qu'un seul argument -->
+        <button class="menu-btn" (click)="$event.stopPropagation(); toggleMenu(i)">⋮</button>
+        
+        <div class="dropdown-menu" [class.show]="activeMenu === i">
+          <button (click)="renameChat(i)">
+            <i class="fas fa-edit"></i> Renommer
+          </button>
+          <button (click)="deleteChat(i)">
+            <i class="fas fa-trash"></i> Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-template #noChats>
+      <div class="no-files-message">
+        <i class="fas fa-search"></i>
+        <p>Aucune conversation trouvée</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <button class="logout-btn" (click)="logout()">Déconnexion</button>
+</div>

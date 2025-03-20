@@ -1,0 +1,9 @@
+<div class="app-container" [class.no-sidebar]="!isSidebarVisible">
+  <ng-container *ngIf="!isLoginRoute && !isSignRoute && !isGererFichierRoute">
+    <app-sidebar *ngIf="isSidebarVisible" (sidebarToggle)="toggleSidebar()"></app-sidebar>
+    <app-chat (sidebarToggle)="toggleSidebar()"></app-chat>
+  </ng-container>
+  <ng-container *ngIf="isLoginRoute || isSignRoute || isGererFichierRoute">
+    <router-outlet></router-outlet>
+  </ng-container>
+</div>

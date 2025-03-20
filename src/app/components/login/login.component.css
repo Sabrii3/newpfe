@@ -1,0 +1,193 @@
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+html, body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5; /* Couleur de fond pour la page de connexion */
+    font-family: Arial, sans-serif;
+    margin: 0; /* Ensure no margin around the body */
+}
+
+.login-page {
+    background-color: white;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Conteneur global */
+.login-container {
+    display: flex;
+    width: 100%;
+    max-width: 800px; /* Réduire la largeur maximale */
+    height: auto; /* Ajuster la hauteur automatiquement */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: white; /* Assurer un fond blanc */
+}
+
+/* Partie gauche (Formulaire) */
+.login-left {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+    background-color: #f5f5f5; /* Couleur de fond pour la partie gauche */
+}
+
+.login-left h2 {
+    font-size: 2rem; /* Taille de la police */
+    margin-bottom: 20px;
+}
+
+.login-left p {
+    margin-bottom: 20px; /* Marge inférieure */
+    color: #666;
+}
+
+.login-left form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-left form label {
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.login-left form input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: 0.3s ease-in-out;
+}
+
+.login-left form input:focus {
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(74, 144, 226, 0.5);
+}
+
+.login-left form button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-left form button:hover {
+    background-color: #0056b3;
+}
+
+/* Boutons */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.btn-google {
+    background-color: #db4437;
+    color: white;
+}
+
+.btn-google:hover {
+    background-color: #c1351d;
+}
+
+.btn-apple {
+    background-color: #000000;
+    color: white;
+}
+
+.btn-apple:hover {
+    background-color: #333;
+}
+
+.btn-signin {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.btn-signin:hover {
+    background-color: #357ab7;
+}
+
+.btn-github {
+    background-color: #24292e;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+.btn-github:hover {
+    background-color: #2c3137;
+}
+
+/* Partie droite (Informations) */
+.login-right {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    background: #4a90e2;
+    color: white;
+}
+
+.login-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.login-info p {
+    margin-bottom: 1rem;
+}
+
+.login-info img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .login-left, .login-right {
+        width: 100%;
+        padding: 1.5rem;
+    }
+
+    .login-right {
+        display: none; /* Hide the right part on mobile */
+    }
+}

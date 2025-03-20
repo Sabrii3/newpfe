@@ -1,0 +1,584 @@
+.sidebar {
+  width: 300px;
+  min-width: 300px;
+  height: 100vh;
+  background-color: #1a1a1a;
+  border-right: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  z-index: 10;
+  box-sizing: border-box;
+  padding: 0; /* Supprimer le padding général */
+  padding-bottom: 70px; /* Espace pour le bouton déconnexion */
+}
+
+.sidebar-header {
+  padding: 16px 15px;
+  border-bottom: 1px solid #333;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sidebar-header h3 {
+  color: #fff;
+  font-size: 1.1rem;
+  margin: 0;
+  text-align: center;
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;  /* Padding uniforme */
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(100vh - 200px); /* Ajuster la hauteur pour laisser de l'espace pour le bouton déconnexion */
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.sidebar-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  min-height: 40px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Style amélioré pour le bouton New Chat */
+.sidebar-content button {
+  width: 100%; /* Pleine largeur */
+  margin: 10px 0; /* Ajuster les marges verticalement seulement */
+  padding: 8px 15px;
+  background-color: #2d2d2d;
+  color: white;
+  border: 1px solid #404040;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.sidebar-content button:hover {
+  background-color: #363636;
+  border-color: #505050;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-content button:active {
+  transform: translateY(0);
+}
+
+.new-chat-button {
+  background-color: #2d2d2d;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 8px 16px;
+  border-radius: 6px;
+  width: 100%;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 16px;
+}
+
+.new-chat-button:hover {
+  background-color: #3d3d3d;
+  border-color: #555;
+}
+
+.search-container {
+  width: calc(100% - 30px); /* Réduire la largeur pour créer des marges */
+  margin: 10px 15px; /* Marges égales des deux côtés */
+  padding: 0;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #2d2d2d;
+  border: 1px solid #404040;
+  border-radius: 8px;
+  color: white;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.search-container input:focus {
+  background-color: #363636;
+  border-color: #505050;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(80, 80, 80, 0.3);
+}
+
+.search-container input::placeholder {
+  color: #808080;
+}
+
+.chat-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.chat-item {
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.chat-item:hover {
+  background-color: #2d2d2d;
+}
+
+.chat-item.active {
+  background-color: #3d3d3d;
+}
+
+li {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 8px 0;
+  padding: 12px 15px;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  border-radius: 12px;
+  background-color: #2d2d2d;
+  border: 1px solid #333;
+  cursor: pointer;
+  z-index: 1;
+  height: auto;
+  min-height: 20px;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #363636;
+}
+
+.menu-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 16px; /* Réduire la taille du symbole */
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.menu-btn:hover {
+  background-color: #404040;
+  color: white;
+}
+
+.menu {
+  position: absolute;
+  right: 5px;
+  top: 100%;
+  background: #363636;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  min-width: 160px;
+  padding: 5px 0;
+  z-index: 1000;
+  display: none; /* Caché par défaut */
+}
+
+.menu.show {
+  display: block; /* Affiché quand la classe .show est présente */
+}
+
+.menu button {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.menu button:hover {
+  background-color: #404040;
+  color: #007bff;
+  padding-left: 20px;
+}
+
+/* S'assurer que le menu est au-dessus des autres éléments */
+li {
+  position: relative;
+}
+
+li:hover .menu-btn {
+  color: white;
+}
+
+.logout-btn {
+  width: calc(100% - 30px); /* Ajuster la largeur avec les marges */
+  padding: 10px;
+  margin: 15px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: fixed;
+  bottom: 15px;
+  width: calc(300px - 30px); /* Largeur de la sidebar moins les marges */
+  margin: 15px;
+  z-index: 100;
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Ajuster les espacements des éléments de liste */
+.files-list {
+  width: 100%;
+  padding: 0 15px; /* Ajouter du padding horizontal */
+  box-sizing: border-box;
+  max-height: calc(100vh - 300px); /* Hauteur maximale avant scrollbar */
+  overflow-y: auto;
+  padding: 0 15px;
+  margin-bottom: 60px; /* Espace pour éviter que le contenu ne soit caché par le bouton */
+}
+
+.files-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.files-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.files-list::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  min-height: 40px;
+}
+
+.files-list::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.file-item {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 8px 0;
+  padding: 12px 15px;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  border-radius: 12px;
+  background-color: #2d2d2d;
+  border: 1px solid #333;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.file-item.active-menu {
+  z-index: 3;
+}
+
+.admin-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espace entre l'avatar et le nom */
+  padding: 15px;
+}
+
+.admin-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #444;
+}
+
+.admin-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.files-title {
+  padding: 15px;
+  border-bottom: 1px solid #333;
+  margin-top: 10px;
+}
+
+.files-title h4 {
+  color: #888;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.file-item {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 8px 0;
+  padding: 12px 15px;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  border-radius: 12px;
+  background-color: #2d2d2d;
+  border: 1px solid #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #363636;
+}
+
+/* Menu styles */
+.menu {
+  position: absolute;
+  right: 10px;
+  top: 100%;
+  background: #363636;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  min-width: 160px;
+  padding: 5px 0;
+  z-index: 1000;
+  display: none;
+  transform-origin: top right;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Important: Ne montrer le menu que quand il a la classe .show */
+.menu.show {
+  display: block;
+}
+
+/* Cacher le menu par défaut */
+.dropdown-menu {
+  display: none;
+}
+
+/* Montrer le menu uniquement quand activeMenu correspond à l'index */
+.file-item[class*="active-menu"] .dropdown-menu {
+  display: block;
+  position: absolute;
+  right: 10px;
+  top: 100%;
+  background: #363636;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  min-width: 160px;
+  z-index: 1000;
+}
+
+.menu-btn {
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.menu-btn:hover {
+  background-color: #404040;
+  color: white;
+}
+
+/* Style du menu et bouton trois points */
+.file-item {
+  position: relative;
+  z-index: 1;
+}
+
+.file-item.active-menu {
+  z-index: 3;
+}
+
+.menu-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.menu-btn:hover {
+  background-color: #404040;
+  color: white;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 5px);
+  background: #363636;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  min-width: 180px;
+  padding: 5px 0;
+  z-index: 1000;
+  display: none;
+  overflow: hidden;
+  transform-origin: top right;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.dropdown-menu.show {
+  display: block;
+  animation: menuFadeIn 0.2s ease;
+}
+
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  border-bottom: 1px solid #444;
+}
+
+.dropdown-menu button:last-child {
+  border-bottom: none;
+}
+
+.dropdown-menu button:hover {
+  background: #404040;
+  color: #007bff;
+  padding-left: 25px;
+}
+
+.dropdown-menu button i {
+  margin-right: 10px;
+  width: 16px;
+  text-align: center;
+}
+
+@keyframes menuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.new-chat-btn {
+  padding: 0 15px;
+  margin: 10px 0;
+}
+
+.new-chat-btn button {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #2d2d2d;
+  color: white;
+  border: 1px solid #404040;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.new-chat-btn button:hover {
+  background-color: #363636;
+  border-color: #505050;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.new-chat-btn button i {
+  font-size: 0.8rem;
+}

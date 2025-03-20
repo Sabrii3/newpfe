@@ -1,0 +1,37 @@
+<nav class="navbar">
+  <div class="logo">Chat App</div>
+  <div class="auth-container">
+    <ng-container *ngIf="!isLoggedIn; else userProfile">
+      <button [routerLink]="['/login']">Login</button>
+      <button [routerLink]="['/sign']">Sign Up</button>
+    </ng-container>
+    <ng-template #userProfile>
+      <img [src]="" alt="Profile" class="profile-pic" />
+    </ng-template>
+  </div>
+</nav>
+
+<div class="chat-container">
+  <div class="messages-container">
+    <div *ngFor="let msg of messages" class="message">{{ msg }}</div>
+  </div>
+
+  <!-- Barre d'entrée -->
+  <div class="input-container">
+    <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
+      <span class="material-icons">menu</span>
+    </button>
+
+    <div class="prompt-wrapper">
+      <input
+        [(ngModel)]="message"
+        (keyup.enter)="sendMessage()"
+        placeholder="Envoyer un message..."
+        class="chat-input"
+      />
+      <button (click)="sendMessage()" class="send-btn">
+        <span class="material-icons">send</span>
+      </button>
+    </div>
+  </div>
+</div>
