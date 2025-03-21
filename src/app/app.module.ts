@@ -9,7 +9,6 @@ import { SignComponent } from './components/sign/sign.component';
 import { GererfichierComponent } from './components/gererfichier/gererfichier.component'; // Corrected import name
 import { ChatComponent } from './components/chat/chat.component';
 import { LoginComponent } from './components/login/login.component';
-
 const routes: Routes = [
   { path: 'sign', component: SignComponent },
   { path: 'gererfichier', component: GererfichierComponent }, // Corrected name
@@ -23,13 +22,14 @@ const routes: Routes = [
     SidebarComponent,
     GererfichierComponent, // Corrected component name
     ChatComponent,
-    LoginComponent
+    LoginComponent,
+    
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
     FormsModule,
-    CommonModule
+    CommonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

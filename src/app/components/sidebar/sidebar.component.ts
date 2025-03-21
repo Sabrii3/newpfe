@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Output, EventEmitter, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,8 +12,14 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule]
 })
 export class SidebarComponent {
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+    private chatService: ChatService
+  ) { }
+
   @Output() sidebarToggle = new EventEmitter<void>();
-  conversations: string[] = ['Chat 1', 'Chat 2', 'Chat 3'];
+  conversations: string[] = [];
   filteredConversations: string[] = this.conversations;
   isVisible: boolean = true;
   isCreatingNewChat: boolean = false;
@@ -19,6 +28,35 @@ export class SidebarComponent {
   activeMenu: number | null = null;
   isSearching: boolean = false; // Ajouter une variable pour suivre l'état de la recherche
   selectedFileIndex: number | null = null;
+  userDetails: any;
+  fullName: string = '';
+  isLoggedIn: boolean = false;
+
+  ngOnInit() {
+    this.userDetails = this.userService.getUserDetails();
+    if (this.userDetails && this.userDetails.user && this.userDetails.user.length > 1) {
+      this.fullName = this.userDetails.user[1]; // Retrieve the full name
+    }
+    console.log('User details in sidebar component:', this.userDetails);
+    this.authService.isAuthenticated().subscribe((status) => {
+      this.isLoggedIn = status;
+      if (this.isLoggedIn) {
+        this.loadConversations();
+      }
+    });
+  }
+
+  loadConversations() {
+    this.chatService.getConversation(this.userDetails.user[0]).subscribe(conversation => {
+      if (conversation.error){
+        return;
+      }
+      this.conversations = conversation.messages.map((msg: any) => `${msg.sender}: ${msg.content}`);
+      this.filteredConversations = this.conversations;
+    }, error => {
+      console.error('Error loading conversations:', error);
+    });
+  }
 
   toggleNewChat() {
     this.isCreatingNewChat = !this.isCreatingNewChat;

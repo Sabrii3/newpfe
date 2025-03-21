@@ -6,12 +6,12 @@
       <button class="btn btn-google">Sign in with Google</button>
       <button class="btn btn-github">Sign in with Github</button>
       <p>or Login with Email</p>
-      <form>
+      <form [formGroup]="applyForm" >
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="test@atheros.ai">
+        <input type="email" id="email" name="email" placeholder="test@atheros.ai" formControlName="email">  
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="******">
-        <button type="submit" class="btn btn-signin">Sign In</button>
+        <input type="password" id="password" name="password" placeholder="******" formControlName="password">
+        <button type="submit" (click)="login()" class="btn btn-signin">Sign In</button>
       </form>
       <p>Don't have an account? <a [routerLink]="['/sign']">Sign Up Now</a></p>
     </div>

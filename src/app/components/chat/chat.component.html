@@ -1,11 +1,11 @@
 <nav class="navbar">
   <div class="logo">Chat App</div>
   <div class="auth-container">
-    <ng-container *ngIf="!isLoggedIn; else userProfile">
+    <ng-container *ngIf="!isLoggedIn; else fullName">
       <button [routerLink]="['/login']">Login</button>
       <button [routerLink]="['/sign']">Sign Up</button>
     </ng-container>
-    <ng-template #userProfile>
+    <ng-template #full>
       <img [src]="" alt="Profile" class="profile-pic" />
     </ng-template>
   </div>
